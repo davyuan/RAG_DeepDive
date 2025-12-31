@@ -11,7 +11,7 @@ CHROMA_PATH = r"chroma_db"
 
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 
-collection = chroma_client.get_or_create_collection(name="growing_vegetables")
+collection = chroma_client.get_or_create_collection(name="growing_vegetables_azure")
 
 
 user_query = input("What do you want to know about growing vegetables?\n\n")
@@ -22,7 +22,7 @@ results = collection.query(
 )
 
 print(results['documents'])
-#print(results['metadatas'])
+print(results['metadatas'])
 
 client = OpenAI()
 
@@ -39,7 +39,7 @@ The data:
 #print(system_prompt)
 
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-4o-mini",
     messages = [
         {"role":"system","content":system_prompt},
         {"role":"user","content":user_query}    

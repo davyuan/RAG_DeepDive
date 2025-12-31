@@ -1,12 +1,5 @@
-<h1>Build a RAG in 10 minutes with Python, ChromaDB and OpenAI</h1>
-
-<h2>Watch the full tutorial on my YouTube Channel</h2>
-<div>
-
-<a href="https://www.youtube.com/watch?v=JfSmffOyV-8">
-    <img src="thumbnail_small.png" alt="Thomas Janssen Youtube" width="200"/>
-</a>
-</div>
+## RAG Deep Dive
+RAG is one of those things that are super easy to do, but pretty hard to do it right. I'll walkthrough a few common issues in RAG and detail how I solve them.  
 
 <h2>Prerequisites</h2>
 <ul>
