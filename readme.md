@@ -250,4 +250,4 @@ I can finally figure out with an image!
 ## Acknowledgement and Future work
 This repo is inspired and based on the work from [RAG in 10 mins](https://github.com/ThomasJanssen-tech/Retrieval-Augmented-Generation)
 
-It turns out a working-well RAG pipeline takes a little more than 10 mins to build. When I have a little more time, I might want to explore a image rich doc set and multi-modal embeddings!
+It turns out a working-well RAG pipeline takes a little more than 10 mins to build. When I have a little more time, I might want to explore an image rich doc set and multi-modal embeddings!
