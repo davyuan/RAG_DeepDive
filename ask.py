@@ -11,7 +11,7 @@ CHROMA_PATH = r"chroma_db"
 
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 
-collection = chroma_client.get_or_create_collection(name="growing_vegetables_azure")
+collection = chroma_client.get_or_create_collection(name="growing_vegetables")
 
 
 user_query = input("What do you want to know about growing vegetables?\n\n")
@@ -21,8 +21,8 @@ results = collection.query(
     n_results=4
 )
 
-print(results['documents'])
-print(results['metadatas'])
+#print(results['documents'])
+#print(results['metadatas'])
 
 client = OpenAI()
 

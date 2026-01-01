@@ -1,3 +1,5 @@
 .env
 venv
 thumbnail.png
+chroma_db
+

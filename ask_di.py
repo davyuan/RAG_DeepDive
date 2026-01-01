@@ -9,27 +9,29 @@ load_dotenv()
 DATA_PATH = r"data"
 CHROMA_PATH = r"chroma_db"
 
-def rerank_results(results):
-    """Convert query responses to a reranked list of documents."""
-    zipped_results = []
+def normalize_results(results):
+    """Flatten a single Chroma query response to the shared entry format."""
+    entries = []
     for i in range(len(results["ids"][0])):
-        zipped_results.append({
+        entries.append({
             "id": results["ids"][0][i],
             "document": results["documents"][0][i],
             "metadata": results["metadatas"][0][i],
             "distance": results["distances"][0][i] if "distances" in results else None,
         })
+    return entries
 
-    reranked = sorted(
-        zipped_results,
+
+def rerank_results(entries):
+    """Sort the provided entries to surface tables first and use distance as a tiebreaker."""
+    return sorted(
+        entries,
         key=lambda x: (
             x["metadata"].get("is_table", False),
             -x["distance"] if x["distance"] is not None else 0,
         ),
         reverse=True,
     )
-
-    return reranked
 
 def generate_rag_sys_prompt(reranked_results):
     context_blocks = []
@@ -69,27 +71,29 @@ The data:
 
 
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-
 collection = chroma_client.get_or_create_collection(name="growing_vegetables_azure")
-
 
 user_query = input("What do you want to know about growing vegetables?\n\n")
 
-results = collection.query(
+text_results = collection.query(
     query_texts=[user_query],
-    n_results=4
+    n_results=2,
+    where={"is_table": False},
 )
 
-#print(results['documents'])
-#print(results['metadatas'])
+table_results = collection.query(
+    query_texts=[user_query],
+    n_results=2,
+    where={"is_table": True},
+)
 
-reranked_results = rerank_results(results)
+entries = normalize_results(text_results) + normalize_results(table_results)
+reranked_results = rerank_results(entries)
 
 client = OpenAI()
 
 system_prompt = generate_rag_sys_prompt(reranked_results)
-
-print(system_prompt)
+#print(system_prompt)
 
 response = client.chat.completions.create(
     model="gpt-4o-mini",

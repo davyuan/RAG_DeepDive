@@ -138,7 +138,7 @@ results = collection.query(
     n_results=4
 )
 
-print(results['documents'])
+#print(results['documents'])
 #print(results['metadatas'])
 
 reranked_results = rerank_results(results)
